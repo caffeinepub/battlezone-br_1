@@ -1,0 +1,149 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("/assets/fonts/BricolageGrotesque.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Outfit";
+  src: url("/assets/fonts/Outfit.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@layer base {
+  :root {
+    --radius: 0.25rem;
+
+    /* Military tactical dark theme */
+    --background: 0.14 0.012 120;
+    --foreground: 0.92 0.04 90;
+    --card: 0.18 0.014 120;
+    --card-foreground: 0.92 0.04 90;
+    --popover: 0.16 0.012 120;
+    --popover-foreground: 0.92 0.04 90;
+    --primary: 0.68 0.14 100;
+    --primary-foreground: 0.12 0.02 100;
+    --secondary: 0.24 0.018 120;
+    --secondary-foreground: 0.82 0.04 90;
+    --muted: 0.20 0.014 120;
+    --muted-foreground: 0.55 0.025 100;
+    --accent: 0.62 0.16 95;
+    --accent-foreground: 0.12 0.02 100;
+    --destructive: 0.60 0.22 25;
+    --destructive-foreground: 0.98 0 0;
+    --border: 0.30 0.02 120;
+    --input: 0.22 0.016 120;
+    --ring: 0.68 0.14 100;
+
+    /* Game-specific tokens */
+    --game-health: 0.60 0.22 25;
+    --game-armor: 0.55 0.14 250;
+    --game-zone: 0.55 0.18 250;
+    --game-safe: 0.85 0.08 140;
+    --game-khaki: 0.72 0.10 90;
+    --game-military: 0.35 0.08 130;
+    --game-danger: 0.60 0.22 25;
+    --game-gold: 0.78 0.16 80;
+
+    --chart-1: 0.68 0.14 100;
+    --chart-2: 0.60 0.22 25;
+    --chart-3: 0.55 0.14 250;
+    --chart-4: 0.78 0.16 80;
+    --chart-5: 0.62 0.16 155;
+
+    --sidebar: 0.14 0.012 120;
+    --sidebar-foreground: 0.92 0.04 90;
+    --sidebar-primary: 0.68 0.14 100;
+    --sidebar-primary-foreground: 0.12 0.02 100;
+    --sidebar-accent: 0.24 0.018 120;
+    --sidebar-accent-foreground: 0.82 0.04 90;
+    --sidebar-border: 0.30 0.02 120;
+    --sidebar-ring: 0.68 0.14 100;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body;
+    overflow: hidden;
+  }
+
+  html {
+    color-scheme: dark;
+  }
+}
+
+/* Scanline texture for HUD */
+.hud-scanlines::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.03) 2px,
+    rgba(0,0,0,0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* HUD element base style */
+.hud-panel {
+  background: oklch(0.10 0.01 120 / 0.85);
+  border: 1px solid oklch(0.68 0.14 100 / 0.3);
+  backdrop-filter: blur(4px);
+}
+
+/* Health bar animation */
+@keyframes pulse-danger {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.pulse-danger {
+  animation: pulse-danger 0.8s ease-in-out infinite;
+}
+
+/* Zone warning flash */
+@keyframes zone-flash {
+  0%, 100% { background-color: oklch(0.55 0.18 250 / 0.15); }
+  50% { background-color: oklch(0.55 0.18 250 / 0.35); }
+}
+
+.zone-damage {
+  animation: zone-flash 0.5s ease-in-out infinite;
+}
+
+/* Tactical grid background for screens */
+.tactical-bg {
+  background-color: oklch(0.10 0.012 120);
+  background-image:
+    linear-gradient(oklch(0.68 0.14 100 / 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.68 0.14 100 / 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Kill notification animation */
+@keyframes slide-in-right {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.kill-notification {
+  animation: slide-in-right 0.3s ease-out;
+}
